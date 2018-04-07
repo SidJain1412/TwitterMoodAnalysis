@@ -32,7 +32,7 @@ def mood(userid,count):
     return totalscore
 
 users=[]
-for i in tweepy.Cursor(api.friends,screen_name="LeftAtLondon").items(50):
+for i in tweepy.Cursor(api.friends,screen_name="realDonaldtrump").items(50):
     while(len(users)<40):
         if(i.protected==False):        #since private accounts throw 401 exception
             users.append(i.screen_name)

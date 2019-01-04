@@ -8,15 +8,12 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 consumer_key = config['TWITTER KEY DETAILS']['ConsumerKey']
-print(consumer_key)
 consumer_secret = config['TWITTER KEY DETAILS']['ConsumerSecret']
-print(consumer_secret)
 access_token = config['TWITTER KEY DETAILS']['AccessToken']
 access_secret = config['TWITTER KEY DETAILS']['AccessSecret']
 screen_name = config['USER DETAILS']['UserNameAt']
-print(screen_name)
+num_users = config['USER DETAILS']['NumberOfUsers']
 num_tweets = config['TWEET DETAILS']['NumTweets']
-print(num_tweets)
 
 try:
     auth = OAuthHandler(consumer_key, consumer_secret)
@@ -53,7 +50,7 @@ def mood(userid, count):
 users = []
 try:
     for i in tweepy.Cursor(api.friends, screen_name=screen_name).items(50):
-        while(len(users) < 40):
+        while(len(users) < int(num_users)):
             if(i.protected is False):  # since private accounts throw 401 exception
                 users.append(i.screen_name)
 except Exception as e:
@@ -62,6 +59,6 @@ except Exception as e:
 
 total = 0.0
 for user in users:
-    total = total + mood(user, num_tweets)
+    total = total + mood(user, int(num_tweets))
 print(total / len(users))
 print(total)

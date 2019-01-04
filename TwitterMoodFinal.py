@@ -2,13 +2,21 @@ import tweepy
 from textblob import TextBlob
 from tweepy import OAuthHandler
 import re
+import configparser
 
-consumer_key = ""
-consumer_secret = ""
-access_token = ""
-access_secret = ""
-screen_name = "realDonaldTrump"
-num_tweets = 15
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+consumer_key = config['TWITTER KEY DETAILS']['ConsumerKey']
+print(consumer_key)
+consumer_secret = config['TWITTER KEY DETAILS']['ConsumerSecret']
+print(consumer_secret)
+access_token = config['TWITTER KEY DETAILS']['AccessToken']
+access_secret = config['TWITTER KEY DETAILS']['AccessSecret']
+screen_name = config['USER DETAILS']['UserNameAt']
+print(screen_name)
+num_tweets = config['TWEET DETAILS']['NumTweets']
+print(num_tweets)
 
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)

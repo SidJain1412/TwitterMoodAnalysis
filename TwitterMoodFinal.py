@@ -18,9 +18,13 @@ print(screen_name)
 num_tweets = config['TWEET DETAILS']['NumTweets']
 print(num_tweets)
 
-auth = OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_secret)
-api = tweepy.API(auth)
+try:
+    auth = OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_secret)
+    api = tweepy.API(auth)
+except Exception as e:
+    print(e)
+    print("Check twitter key details in config and try again")
 
 
 def mood(userid, count):
@@ -47,10 +51,14 @@ def mood(userid, count):
 
 
 users = []
-for i in tweepy.Cursor(api.friends, screen_name=screen_name).items(50):
-    while(len(users) < 40):
-        if(i.protected is False):  # since private accounts throw 401 exception
-            users.append(i.screen_name)
+try:
+    for i in tweepy.Cursor(api.friends, screen_name=screen_name).items(50):
+        while(len(users) < 40):
+            if(i.protected is False):  # since private accounts throw 401 exception
+                users.append(i.screen_name)
+except Exception as e:
+    print("Check twitter key details in config and try again")            
+    exit(0)
 
 total = 0.0
 for user in users:
